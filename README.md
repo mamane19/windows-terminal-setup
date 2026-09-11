@@ -4,6 +4,8 @@ One-shot setup for a Windows dev terminal: Claude Code (native), Hyper on PowerS
 
 ## Quick start
 
+**Run these in PowerShell, not Command Prompt (cmd).** Open it from the Start menu (search "PowerShell"), or if you're in a `cmd` window just type `powershell` and press Enter first. (In `cmd` you'll see `'Get-ChildItem' is not recognized...` — that means you're in the wrong shell.)
+
 Fresh Windows blocks unsigned `.ps1`, so clone, unblock, then run:
 
 ```powershell
