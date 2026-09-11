@@ -17,6 +17,14 @@ if (-not (Get-Command hyper -ErrorAction SilentlyContinue)) {
     Write-Host 'Hyper already installed.'
 }
 
+# .hyper.js launches pwsh (PowerShell 7). Make sure it exists, or Hyper crashes with "File not found".
+if (-not (Get-Command pwsh -ErrorAction SilentlyContinue)) {
+    Write-Host 'Installing PowerShell 7 (the shell .hyper.js uses)...' -ForegroundColor Yellow
+    winget install --id Microsoft.PowerShell -e --accept-package-agreements --accept-source-agreements
+} else {
+    Write-Host "PowerShell 7 present: $(pwsh --version)"
+}
+
 $target = Join-Path $env:USERPROFILE '.hyper.js'
 if (Test-Path $target) {
     $backup = "$target.bak-$(Get-Date -Format yyyyMMdd-HHmmss)"
