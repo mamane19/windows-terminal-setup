@@ -23,7 +23,7 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap.ps1 -SkipStarship
 
 | Script | Does |
 |---|---|
-| `install-claude-code.ps1` | Ensures Git for Windows (Claude Code uses Git Bash as its shell), installs Claude Code (native), runs `claude doctor` |
+| `install-claude-code.ps1` | Ensures Git for Windows (Git Bash) + Node.js/npm, installs Claude Code via npm, runs `claude doctor` |
 | `install-fonts.ps1` | Installs JetBrainsMono Nerd Font per-user (icons + prompt glyphs), no admin needed |
 | `setup-hyper.ps1` | Installs Hyper, backs up any existing `.hyper.js`, writes the new one |
 | `setup-starship.ps1` | Installs Starship, wires it into your PowerShell profile (optional, `-Skip`) |
@@ -36,6 +36,6 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap.ps1 -SkipStarship
 
 ## Notes
 
-- **No Bash needed for these scripts** — they are PowerShell. Claude Code itself uses **Git Bash** (from Git for Windows) as its shell on Windows, which `install-claude-code.ps1` installs for you.
+- **No Bash needed for these scripts** — they are PowerShell. Claude Code itself uses **Git Bash** (from Git for Windows) as its shell on Windows, and installs via **npm**, so `install-claude-code.ps1` sets up Git for Windows and Node.js/npm before installing Claude Code. It refreshes PATH in-session; if a tool still isn't found, open a new terminal and re-run (it's idempotent).
 - Re-running is safe: installs are skipped when already present, and `.hyper.js` is backed up before it is replaced.
 - Restart Hyper after setup — it applies the font and auto-installs the plugins listed in `.hyper.js`.
