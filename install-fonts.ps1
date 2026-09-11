@@ -1,6 +1,8 @@
 #Requires -Version 5.1
 # Installs JetBrainsMono Nerd Font per-user (no admin) for terminal icons and prompt glyphs.
 $ErrorActionPreference = 'Stop'
+# Windows PowerShell 5.1 renders a progress bar that cripples Invoke-WebRequest speed; silence it.
+$ProgressPreference = 'SilentlyContinue'
 
 $userFonts = Join-Path $env:LOCALAPPDATA 'Microsoft\Windows\Fonts'
 if (Test-Path (Join-Path $userFonts 'JetBrainsMonoNerdFont-Regular.ttf')) {
