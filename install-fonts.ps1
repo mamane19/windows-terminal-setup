@@ -10,8 +10,8 @@ if (Test-Path (Join-Path $userFonts 'JetBrainsMonoNerdFont-Regular.ttf')) {
     return
 }
 
-$tmp = Join-Path $env:TEMP "JetBrainsMono-nf-$(Get-Random)"
-New-Item -ItemType Directory -Path $tmp -Force | Out-Null
+# Resolve to the long path (.FullName) so an 8.3 short TEMP (e.g. a username with a space) doesn't break cleanup.
+$tmp = (New-Item -ItemType Directory -Path (Join-Path $env:TEMP "JetBrainsMono-nf-$(Get-Random)") -Force).FullName
 $zip = Join-Path $tmp 'JetBrainsMono.zip'
 
 Write-Host 'Downloading JetBrainsMono Nerd Font...'
@@ -29,5 +29,9 @@ Get-ChildItem -Path $tmp -Filter '*.ttf' -Recurse | ForEach-Object {
     New-ItemProperty -Path $regPath -Name "$($_.BaseName) (TrueType)" -Value $dest -PropertyType String -Force | Out-Null
 }
 
-Remove-Item $tmp -Recurse -Force
+try {
+    Remove-Item $tmp -Recurse -Force -ErrorAction Stop
+} catch {
+    Write-Host "Note: could not remove temp folder $tmp (harmless, delete it manually if you like)." -ForegroundColor DarkGray
+}
 Write-Host 'JetBrainsMono Nerd Font installed (user scope). Restart apps to pick it up.'
